@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Mobile Flight Plan</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="lib/jquery.mobile-1.4.5.css" />
+	<link rel="stylesheet" type="text/css" href="lib/ave-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/jquery.mobile.icons.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/style.css">
+	<script src="lib/jquery-1.11.1.min.js"></script>
+	<script src="lib/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="lib/angular.js"></script>
+	<script type="text/javascript" src="lib/angular-route.min.js"></script>
+	<script type="text/javascript" src="lib/controller.js"></script>
+	<script type="text/javascript" src="lib/jquery.validate.js"></script>
+	<script type="text/javascript" src="lib/phoneUS.js"></script>
+	<script type="text/javascript" src="lib/integer.js"></script>
+	<script type="text/javascript" src="lib/myvalidation.js"></script>
+	<script type="text/javascript" src="lib/getjson.js"></script>
+	<style>
+	#flightplan label.error {
+	color:red;
+	}
+	#flightplan input.error {
+	border:1px solid red;
+	}
+	.ctr {text-align: center}
+		.hide {
+			visibility: hidden;
+		}
+	</style>
+	</head>
+<body>
+	<div data-role="page" data-theme="a" id="page01">
+		<div data-role="header">
+			<h1>HTML5 Mobile App</h1>
+		</div>
+		<div data-role="content">
+			<h1 class="ctr">Mobile Flight Plan</h1>
+			<img src="img/jet.jpg">
+			<ul data-role="listview" data-filter="true" data-inset="true">
+				<li><a href="#page02" data-transition="turn">Check Weather</a></li>
+				<li><a href="#page03" data-transition="slidefade">File Flight Plan</a></li>
+				<li><a href="#page04" data-transition="flow">Departure</a></li>
+				<li><a href="#page05" data-transition="slidedown">Enroute</a></li>
+				<li><a href="#page06" data-transition="pop">Destination</a></li>
+			</ul>
+			<p>This page built HTML5 using jquery mobile</p>
+			<img src="http://view.jquerymobile.com/1.3.2/dist/demos/_assets/img/jquery-logo.png" width="240px">
+		</div>
+		<div data-role="footer">
+			<h4>Built with jquery mobile, AngularJS and HTML5</h4>
+		</div>
+	</div>
+	<div data-role="page" id="page02">
+		<div data-role="header">
+			<h1>Check Weather</h1>
+		</div>
+		<div data-role="content">
+		<div data-role="fieldcontain">
+			<label for="departureAP">Airport Code</label>
+			<input type="text" id="airportCode"  ng-model="accode" placeholder="Enter 3-digit US Airport Code. Example: LMO for Longmont, CO">
+		</div>
+			<script type="text/javascript">
+			function getMetar() {
+				var src="http://www.aviationweather.gov/adds/metars/?station_ids=K" + airportCode.value + "&std_trans=standard&chk_metars=on&hoursStr=most+recent+only&submitmet=Submit";
+				document.getElementById("airportCode").innerHTML = getMetar;
+				console.log(src);
+				document.getElementById("ans").href = (src);
+				$( "#ans" ).removeClass( "hide" )
+			}
+			
+			</script>
+			<button type="submit" onClick="getMetar()">Submit</button>
+			<a id="ans" class="hide" href=""><button>Get METAR for {{accode}}</button></a>
+
+		</div>
+		<div data-role="footer">
+			<h4><a href="#page01" data-transition="turn" data-direction="reverse">HOME</a></h4>
+		</div>
+	</div>
+
+	<div data-role="page" id="page03">
+		
+		<div data-role="header">
+			<h1>File Flight Plan</h1>
+		</div>
+			<div data-role="content">
+			<ul data-role="listview" data-filter="true" data-inset="true">
+			<li><a href="#page07" data-transition="slidefade">Create Flight Plan</a></li>
+			<li><a href="http://www.duat.com" data-transition="turn">File with Duat.com</a></li>
+			<li><a href="http://www.fltplan.com/" data-transition="slidefade">File with Fltplan.com</a></li>
+			<li><a href="tel:1-800-992-7433" data-transition="slidefade">Call 1-800-WX-BRIEF</a></li>
+		</ul>
+		</div>
+		<div data-role="footer">
+			<h4><a href="#page01" data-transition="flow" data-direction="reverse">HOME</a></h4>
+		</div>
+	</div>
+	<div data-role="page" id="page04">
+		<div data-role="header">
+			<h1>Departure Airport</h1>
+		</div>
+		<div data-role="content" >
+			<label for="departureAP">Airport Code</label>
+			<input type="text" id="airportCode2"  placeholder="Enter 3-digit US Airport Code. Example: WBU for Boulder, Colo.">
+			<button type="submit" onClick="init()">Submit</button>
+			<p id="airportinfo"></p>
+			<img id="airportimage">
+
+		</div>
+		<div data-role="footer">
+			<h4><a href="#page01" data-transition="turn" data-direction="reverse">HOME</a></h4>
+		</div>
+	</div>
+
+		<div data-role="page" id="page05">
+		<div data-role="header">
+			<h1>Enroute</h1>
+		</div>
+		<div data-role="content">
+			<p>Add Waypoint</p>
+			<div data-role="fieldcontain">
+				<label>Enter all Waypoints. Separate with space or dash.</label>
+				<input type="text" name="airportcode" class="airportcode" ng-model="airportcode"/>
+			</div>
+			<p ng-bind="airportcode"></p>
+		</div>
+		<div data-role="footer">
+			<h4><a href="#page01" data-transition="turn" data-direction="reverse">HOME</a></h4>
+		</div>
+	</div>
+	<div data-role="page" id="page06">
+		<div data-role="header">
+			<h1>Destination Airport Information</h1>
+		</div>
+		<div data-role="content">
+			<label for="departureAP">Airport Code</label>
+			<input type="text" id="airportCode3"  placeholder="Enter 3-digit US Airport Code. Example: APA for Centennial, Colo.">
+			<button type="submit" onClick="init2()">Submit</button>
+			<p id="airportinfo2"></p>
+			<img id="airportimage2">
+		</div>
+		<div data-role="footer">
+			<h4><a href="#page01" data-transition="turn" data-direction="reverse">HOME</a></h4>
+		</div>
+	</div>
+	<div data-role="page" id="page07">
+
+		<div data-role="header">
+		<h1>File Flight Plan</h1>
+		</div>
+		<div data-role="main" class="ui-content">
+		<form name="form1" id="flightplan" method="post" action=""> 
+			<label>Type of Flight Plan</label>
+			<select name="Select type" id="plantype">
+			<option value="2" >Select One</option>
+			<option value="0" >VFR</option>
+			<option value="1" >IFR</option>
+			<option value="2" >DVFR</option></select>
+
+		<div data-role="fieldcontain">
+			<label for="ident">Aircraft Identification</label>
+			<input type="text" name="ident" id="ident" ng-model="ident" class="req" placeholder="Aircraft Tail #">
+		</div>
+		<div data-role="fieldcontain">
+			<label for="actype">Aircraft Type/Special Equipment</label>
+			<input type="text" placeholder="Aircraft Type" name="actype" id="actype" ng-model="actype" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label for="TAS">True Airspeed</label>
+			<input type="text" placeholder="True Airspeed" name="tas" id="tas" ng-model="tas" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Departure Airport</label>
+			<input type="text" placeholder="Departure Airport" id="departureAP" ng-model="departureAP" class="req min3"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Departure Time(Z)</label>
+			<input type="text" placeholder="Departure Time(Z)" id="deptime" ng-model="deptime" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Cruising Altitude</label>
+			<input type="text" placeholder="Cruising Altitude" id="cruisalt" ng-model="cruisealt" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Route of Flight</label>
+			<input type="text" placeholder="Enter waypoints" id="wayp" ng-model="wayp" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Destination</label>
+			<input type="text" placeholder="Enter Destination" id="dest" ng-model="dest" class="req min3"/>
+		</div>	
+		<div data-role="fieldcontain">
+			<label>Estimated Time Enroute</label>
+			<input type="text" placeholder="Hours" id="timeenr" ng-model="timeenr" class="req numbr"/>Hours
+		</div>
+		<div data-role="fieldcontain">
+			<label>Estimated Time Enroute</label>
+			<input type="text" placeholder="Minutes" id="timeenrmin" ng-model="timeenrmin" class="req numbr"/>Minutes
+		</div>	
+		<div data-role="fieldcontain">
+			<label>Remarks</label>
+			<input type="text" placeholder="Remarks" ng-model="remarks" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Fuel On Board</label>
+			<input type="text" placeholder="Hours" ng-model="hoursfuel" class="req numbr"/>Hours
+		</div>	
+		<div data-role="fieldcontain">
+			<label>Fuel On Board</label>
+			<input type="text" placeholder="Minutes" ng-model="minutesfuel" class="req numbr"/>Minutes
+		</div>	
+		<div data-role="fieldcontain">
+			<label>Alternate Airport(s)</label>
+			<input type="text" placeholder="Alternate airport(s)" ng-model="altairport" class="req min3"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Pilot's Name, Address, & Aircraft Home Base</label>
+			<input type="text" placeholder="Name, Address, Aircraft Home Base" ng-model="pilotinfo" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label for="phone">Pilot's Telephone:</label>
+			<input type="tel" name="phone" id="phone" placeholder="Please include area code" ng-model="pilotphone" class="req phoneUS"/>
+		</div>				
+		<div data-role="fieldcontain">
+			<label>Number Aboard</label>
+			<input type="text" placeholder="Number Aboard" ng-model="numaboard" class="req numbr"/>Persons
+		</div>
+		<div data-role="fieldcontain">
+			<label>Color of Aircraft</label>
+			<input type="text" placeholder="Color of Aircraft" ng-model="coloraircraft" class="req"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label>Destination Contact Telephone (optional):</label>
+			<input type="text" name="phone" ng-model="destphone" class="phoneUS"/>
+		</div>
+			<button type="submit">Submit</button>
+		<button type="reset">Reset</button>
+		<p><span id='display'></span> </p>
+			<h2 class="ctr">Flight Plan</h2>
+			<h3>Aircraft Identification</h3><p ng-bind="ident"></p>
+			<h3>Aircraft Type</h3><p ng-bind="actype"></p>
+			<h3>True Airspeed</h3><p ng-bind="tas"></p>
+			<h3>Departure Airport</h3><p ng-bind="departureAP"></p>
+			<h3>Departure Time</h3><p ng-bind="deptime"></p>
+			<h3>Cruising Altitude</h3><p ng-bind="cruisealt"></p>
+			<h3>Waypoints</h3><p ng-bind="wayp"></p>
+			<h3>Destination Airport</h3><p ng-bind="dest"></p>
+			<p><h3>Time Enroute: </h3><span data-ng-bind="timeenr"></span> hours <span data-ng-bind="timeenrmin"></span> minutes </p>
+			<h3>Remarks</h3><p ng-bind="remarks"></p>
+			<p><h3>Fuel on Board: </h3><span data-ng-bind="hoursfuel"></span> hours <span data-ng-bind="minutesfuel"></span> minutes </p>
+			<h3>Alternate Airport</h3><p ng-bind="altairport"></p>
+			<h3>Pilot name, address, aircraft home base</h3><p ng-bind="pilotinfo"></p>
+			<h3>Pilot's phone #</h3><p ng-bind="pilotphone"></p>
+			<h3>Number Aboard</h3><p ng-bind="numaboard"></p>
+			<h3>Color of Aircraft</h3><p ng-bind="coloraircraft"></p>
+			<h3>Destination Telephone</h3><p ng-bind="destphone"></p>
+		</form>
+
+			<script>
+
+			</script>
+			</div>
+			</div>
+</body>
+</html>
